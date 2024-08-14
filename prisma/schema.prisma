@@ -1,0 +1,102 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User Roles Enum
+enum UserRole {
+  ADMIN
+  USER
+}
+
+// Order Status Enum
+enum OrderEnum {
+  START
+  COMFORT
+  BUSINESS
+}
+
+enum UserStatus {
+  INACTIVE
+  ACTIVE
+}
+
+model User {
+  id        Int         @id @default(autoincrement())
+  name      String
+  phone     String
+  email     String      @unique
+  password  String
+  role      UserRole    @default(USER)
+  token     String
+  isActive  Boolean
+  refresh   Refresh?
+  otp       Otp?
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  orders    OrderTaxi[] @relation("UserOrders") // Add this line to establish the relation with OrderTaxi
+}
+
+model OrderTaxi {
+  id             Int       @id @default(autoincrement())
+  userId         Int
+  startAddressId Int
+  endAddressId   Int
+  date           DateTime
+  description    String
+  status         OrderEnum
+  definitionId   Int
+  price          BigInt
+  driverId       Int
+
+  user   User   @relation("UserOrders", fields: [userId], references: [id], onDelete: Cascade)
+  driver Driver @relation(fields: [driverId], references: [id], onDelete: Cascade)
+}
+
+model Driver {
+  id             Int         @id @default(autoincrement())
+  firstName      String
+  lastName       String
+  phone          String
+  address        String
+  photo          String
+  driversLicence String
+  isActive       Boolean
+  token          String
+  password       String
+  totalBalance   Int
+  OrderTaxi      OrderTaxi[]
+}
+
+model Car {
+  id          Int    @id @default(autoincrement())
+  model       String
+  color       String
+  number      String
+  photo       String
+  texPassport String
+  capacity    Int
+}
+
+model Refresh {
+  id        Int      @id @default(autoincrement())
+  refresh   String
+  userId    Int      @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Otp {
+  id        Int      @id @default(autoincrement())
+  otp       String
+  userId    Int      @unique()
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
