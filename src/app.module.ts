@@ -9,6 +9,10 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { PrismaService } from './prisma/prisma.service';
+import { AddresModule } from './addres/addres.module';
+import { DefinitionModule } from './definition/definition.module';
+import { DriverInfoModule } from './driver-info/driver-info.module';
+
 
 @Module({
   imports: [
@@ -40,7 +44,7 @@ import { PrismaService } from './prisma/prisma.service';
     DriverModule, 
     CarModule, 
     OrderTaxiModule, 
-    AuthModule],
+    AuthModule, AddresModule, DefinitionModule, DriverInfoModule,],
   controllers: [],
   providers: [PrismaService],
 })

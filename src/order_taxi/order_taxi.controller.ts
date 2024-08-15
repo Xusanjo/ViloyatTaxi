@@ -27,6 +27,7 @@ export class OrderTaxiController {
   getOne(@Param('id') id: number) {
     return this.orderTaxiService.getById(id);
   }
+  
   @ApiBearerAuth()
   @Patch(':id')
   update(@Param('id') id: number, @Body() updateOrderTaxiDto: OrderTaxi) {

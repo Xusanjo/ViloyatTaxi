@@ -25,6 +25,26 @@ enum UserStatus {
   ACTIVE
 }
 
+enum definitionLang {
+  INGILIZ 
+  RUS
+  UZBEK
+}
+
+model Addres {
+  id Int @id @default(autoincrement())
+  location String
+  long BigInt
+  lat BigInt
+}
+
+model Definition {
+  id Int @id @default(autoincrement())
+  emtySeatNumber Int
+  type OrderEnum
+  lang definitionLang
+}
+
 model User {
   id        Int         @id @default(autoincrement())
   name      String
@@ -32,8 +52,8 @@ model User {
   email     String      @unique
   password  String
   role      UserRole    @default(USER)
-  token     String
-  isActive  Boolean
+  token     String?
+  isActive  Boolean     @default(true)
   refresh   Refresh?
   otp       Otp?
   createdAt DateTime    @default(now())
@@ -70,6 +90,16 @@ model Driver {
   password       String
   totalBalance   Int
   OrderTaxi      OrderTaxi[]
+}
+
+model DriverInfo {
+  id Int @id @default(autoincrement())
+  amount BigInt
+  // driverId Int @
+  date DateTime
+  transferType definitionLang
+
+  // driver Driver @relation(fields: [driverId], references: [id], onDelete: Cascade)
 }
 
 model Car {

@@ -12,6 +12,7 @@ export class DriverController {
   constructor(private readonly driverService: DriverService) {}
   
   @ApiProperty({type: CreateDriverDto})
+  @ApiBearerAuth()
   @Post('create')
   async create(@Body() createDriverDto: CreateDriverDto) {
     try {
@@ -21,7 +22,6 @@ export class DriverController {
     }
   }
   
-  @ApiBearerAuth()
   @Get('getAll')
   async getAllDrivers(): Promise<Driver[]> {
     return this.driverService.getAllDrivers();
@@ -36,6 +36,7 @@ export class DriverController {
     }
   }
 
+  @ApiBearerAuth()
   @ApiProperty({ type: UpdateDriverDto})
   @Patch(':id')
   async update(@Param('id') id: number, @Body() updateDriverDto: UpdateDriverDto): Promise<Driver> {
@@ -46,6 +47,7 @@ export class DriverController {
     }
   }
 
+  @ApiBearerAuth()
   @Delete(':id')
   async delete(@Param('id') id: number) {
     try {

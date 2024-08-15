@@ -33,11 +33,11 @@ export class UserService {
         password: hashedPassword,
       });
 
-      await this.mailerService.sendMail({
-        to: email,
-        subject: 'Your One Time Password',
-        html: `<h2>${otp}</h2>`,
-      });
+      // await this.mailerService.sendMail({
+        // to: email,
+        // subject: 'Your One Time Password',
+        // html: `<h2>${otp}</h2>`,
+      // });
 
       await this.userRepository.createOtp({ userId: newUser.id, otp});
 
